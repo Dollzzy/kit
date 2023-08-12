@@ -36,6 +36,8 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+
+
 .window .title-bar {
     cursor: move;
 }
@@ -176,4 +178,6 @@ button:focus {
     color: #666;
     margin-right: 10px;
 }
+
+/* Stilurile pentru meniul lateral și zona de conținut */
 

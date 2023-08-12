@@ -41,6 +41,20 @@ function createWindow(title, content, options = {}) {
             sysElement.removeChild(windowDiv);
         });
 
+        if (options.NextAction) {
+            const closeButton = document.createElement("span");
+            closeButton.className = "close-button";
+            closeButton.textContent = "X";
+            closeButton.addEventListener("click", function () {
+                if (options.NextAction) {
+                    options.NextAction(); // Apelăm funcția NextAction în momentul închiderii ferestrei
+                }
+                sysElement.removeChild(windowDiv);
+            });
+    
+            titleBar.appendChild(closeButton);
+        }
+
         footerDiv.appendChild(closeButton);
         windowDiv.appendChild(footerDiv);
     }
@@ -65,6 +79,23 @@ function createWindow(title, content, options = {}) {
 
     if (options.height) {
         windowDiv.style.height = options.height + "px";
+    }
+
+    if (options.x !== undefined && options.y !== undefined) {
+        windowDiv.style.left = options.x + "px";
+        windowDiv.style.top = options.y + "px";
+    }
+    if (options.fullScreen) {
+        windowDiv.style.width = "100%";
+        windowDiv.style.height = "100%";
+        windowDiv.style.left = "0";
+        windowDiv.style.top = "0";
+    } else {
+        // Verificăm dacă coordonatele x și y sunt definite
+        if (options.x !== undefined && options.y !== undefined) {
+            windowDiv.style.left = options.x + "px";
+            windowDiv.style.top = options.y + "px";
+        }
     }
 
     if (options.x !== undefined && options.y !== undefined) {
@@ -169,8 +200,8 @@ if (document.addEventListener) {
     
 function createMenu() {
     const menuContent = `
-            <button id="aboutButton">app1</button>
-            <button id="settingsButton">app2</button>
+        <button id="aboutButton">app1</button>
+        <button id="settingsButton">app2</button>
     `;
 
     const menuWindow = createWindow("Menu", menuContent);
@@ -192,8 +223,9 @@ function createMenu() {
         });
         bringWindowToFront(menuWindow);
     });
-}
 
+}
+ 
 
 function createStartupWindow() {
     const startupWindowContent = `
@@ -206,7 +238,8 @@ function createStartupWindow() {
         width: 400, 
         height: 200,
         resizable:false,
-        noCloseButton:true
+        noCloseButton:true,
+        fullScreen:true
     });
 
     const footerDiv = document.createElement("div");
